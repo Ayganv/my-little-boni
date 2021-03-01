@@ -38,5 +38,34 @@ public class SkeletonManager : MonoBehaviour
         {
             SpawnSkeleton();
         }
+
+        if (Input.touchCount > 0)
+        {
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.GetTouch(0).position), out RaycastHit hit))
+            {
+                var walkerScript = hit.collider.gameObject.GetComponent<WalkerScript>();
+                if (walkerScript != null)
+                {
+                    Destroy(hit.collider.gameObject);
+                }
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, float.MaxValue))
+            {
+                Debug.Log(hit.collider.gameObject.name);
+                var walkerScript = hit.collider.gameObject.GetComponent<WalkerScript>();
+                if (walkerScript != null)
+                {
+                    Destroy(hit.collider.gameObject);
+                }
+            }
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(Camera.main.ScreenPointToRay(Input.mousePosition).origin, Camera.main.ScreenPointToRay(Input.mousePosition).origin + Camera.main.ScreenPointToRay(Input.mousePosition).direction);
     }
 }
