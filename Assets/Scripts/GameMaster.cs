@@ -6,6 +6,7 @@ public class GameMaster : MonoBehaviour
 {
     static public GameMaster instance;
 
+    [Header("Poggers Systems")]
     public SaveSystem saveSystem;
 
     private void Awake()
@@ -18,6 +19,7 @@ public class GameMaster : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        DontDestroyOnLoad(this.gameObject);
     }
 
     private void Start()
