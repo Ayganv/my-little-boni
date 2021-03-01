@@ -1,18 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Bone : MonoBehaviour
+﻿[System.Serializable]
+public class Bone
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public string name;
+    public Rarity rarity;
+    public Type type;
+}
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+public enum Rarity
+{
+    COMMON,
+    UNCOMMON,
+    RARE,
+    EPIC,
+    LEGENDARY
+}
+
+public enum Type
+{
+    SKULL,
+    ARM,
+    LEG,
+    BODY
 }
