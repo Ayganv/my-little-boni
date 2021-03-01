@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 public class SkeletonManager : MonoBehaviour
@@ -13,6 +14,8 @@ public class SkeletonManager : MonoBehaviour
 
     public float timeBetweenSpawn = 1;
     public float lastSpawnTime;
+
+    public UnityEvent skeletonDestroyed;
     
     public void SpawnSkeleton()
     {
@@ -41,31 +44,54 @@ public class SkeletonManager : MonoBehaviour
 
         if (Input.touchCount > 0)
         {
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.GetTouch(0).position), out RaycastHit hit))
+            var camRay = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
+            RaycastHit2D hit = Physics2D.Raycast(Vector2OriginFromRay(camRay), Vector2DirectionFromRay(camRay));
+            if (hit.collider != null)
             {
+                Debug.Log("hit");
                 var walkerScript = hit.collider.gameObject.GetComponent<WalkerScript>();
                 if (walkerScript != null)
                 {
+                    skeletonDestroyed.Invoke();
+                    AddExperience();
                     Destroy(hit.collider.gameObject);
                 }
             }
         }
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, float.MaxValue))
+            var camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(Vector2OriginFromRay(camRay), Vector2DirectionFromRay(camRay));
+            if (hit.collider != null)
             {
-                Debug.Log(hit.collider.gameObject.name);
+                Debug.Log("hit");
                 var walkerScript = hit.collider.gameObject.GetComponent<WalkerScript>();
                 if (walkerScript != null)
                 {
+                    skeletonDestroyed.Invoke();
+                    AddExperience();
                     Destroy(hit.collider.gameObject);
                 }
             }
         }
     }
 
+    void AddExperience()
+    {
+        PlayerData.PlayerExperience++;
+    }
+
     private void OnDrawGizmos()
     {
-        Gizmos.DrawLine(Camera.main.ScreenPointToRay(Input.mousePosition).origin, Camera.main.ScreenPointToRay(Input.mousePosition).origin + Camera.main.ScreenPointToRay(Input.mousePosition).direction);
+        Gizmos.DrawLine(Camera.main.ScreenPointToRay(Input.mousePosition).origin, Camera.main.ScreenPointToRay(Input.mousePosition).origin + (Camera.main.ScreenPointToRay(Input.mousePosition).direction * float.MaxValue));
+    }
+
+    private Vector2 Vector2OriginFromRay(Ray input)
+    {
+        return new Vector2(input.origin.x, input.origin.y);
+    }
+    private Vector2 Vector2DirectionFromRay(Ray input)
+    {
+        return new Vector2(input.direction.x, input.direction.y);
     }
 }
