@@ -33,4 +33,9 @@ public static class PlayerData
     {
         return ExperienceRequired() - PlayerExperience;
     }
+
+    public static int amountOfSkeletonsMade()
+    {
+        return 0;
+    }
 }
