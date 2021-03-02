@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class SkeletonManager : MonoBehaviour
@@ -16,7 +17,15 @@ public class SkeletonManager : MonoBehaviour
     public float lastSpawnTime;
 
     public UnityEvent skeletonDestroyed;
-    
+
+    public Image expImage;
+    public Text lvlText;
+
+    private void Start()
+    {
+        UpdateEXPBar();
+    }
+
     public void SpawnSkeleton()
     {
         var newSkeleton = Instantiate(skeletonPrefab);
@@ -54,10 +63,12 @@ public class SkeletonManager : MonoBehaviour
                 {
                     skeletonDestroyed.Invoke();
                     AddExperience();
+                    UpdateEXPBar();
                     Destroy(hit.collider.gameObject);
                 }
             }
         }
+        
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             var camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -70,13 +81,14 @@ public class SkeletonManager : MonoBehaviour
                 {
                     skeletonDestroyed.Invoke();
                     AddExperience();
+                    UpdateEXPBar();
                     Destroy(hit.collider.gameObject);
                 }
             }
         }
     }
 
-    void AddExperience()
+    private void AddExperience()
     {
         PlayerData.PlayerExperience++;
     }
@@ -93,5 +105,11 @@ public class SkeletonManager : MonoBehaviour
     private Vector2 Vector2DirectionFromRay(Ray input)
     {
         return new Vector2(input.direction.x, input.direction.y);
+    }
+
+    private void UpdateEXPBar()
+    {
+        expImage.fillAmount = Mathf.InverseLerp(PlayerData.ExperienceRequired(), 0, PlayerData.ExperienceUntilLevelUp());
+        lvlText.text = PlayerData.PlayerLevel.ToString();
     }
 }
