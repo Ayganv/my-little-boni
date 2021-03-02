@@ -16,7 +16,7 @@ public class SkeletonManager : MonoBehaviour
     public float lastSpawnTime;
 
     public UnityEvent skeletonDestroyed;
-    
+
     public void SpawnSkeleton()
     {
         var newSkeleton = Instantiate(skeletonPrefab);

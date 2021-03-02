@@ -1,18 +1,45 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
-public class SaveSystem : MonoBehaviour
+public static class SaveSystem
 {
-    // Start is called before the first frame update
-    void Start()
+    public static string saveFileName;
+    private static string savePath = Application.persistentDataPath + "/{saveFileName}";
+
+    public static void SaveGame()
     {
-        
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file = File.Create(savePath);
+        SaveData data = new SaveData();
+
+        data.BoneData = BoneCollection.boneData;
+
+        bf.Serialize(file, data);
+        file.Close();
+        Debug.Log("Game data saved to local!");
     }
 
-    // Update is called once per frame
-    void Update()
+    public static void LoadGame()
     {
-        
+        if (File.Exists(savePath))
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Open(savePath, FileMode.Open);
+            SaveData data = (SaveData)bf.Deserialize(file);
+            file.Close();
+
+            BoneCollection.boneData = data.BoneData;
+
+            Debug.Log("Local game data loaded!");
+        }
+        else
+            Debug.LogError("There is no save data!");
     }
+}
+
+[System.Serializable]
+public class SaveData
+{
+    public BoneCollectionData BoneData;
 }
