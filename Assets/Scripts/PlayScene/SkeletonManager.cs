@@ -10,7 +10,7 @@ public class SkeletonManager : MonoBehaviour
 {
     public float minHeight = -4;
     public float maxHeight = 2.5f;
-    public float distanceFromCenter = 15;
+    public float distanceFromCenter = 2.5f;
     public GameObject skeletonPrefab;
 
     public float timeBetweenSpawn = 1;
@@ -20,10 +20,14 @@ public class SkeletonManager : MonoBehaviour
 
     public Image expImage;
     public Text lvlText;
-
+    
     private void Start()
     {
         UpdateEXPBar();
+        //Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / (float)2, 0, 0));
+        //distanceFromCenter = ray.origin.x;
+        distanceFromCenter *= (float)Screen.width / 1080;
+        //2.5f * 2160 / 1080;
     }
 
     public void SpawnSkeleton()
