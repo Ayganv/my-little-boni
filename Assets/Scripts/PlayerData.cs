@@ -18,12 +18,12 @@ public static class PlayerData
             PlayerPrefs.SetInt("PlayerExperience", value);
         }
     }
-    
+
     public static int PlayerLevel { get => PlayerPrefs.GetInt("PlayerLevel", 1); set => PlayerPrefs.SetInt("PlayerLevel", value); }
-    
+
     const int baseExperienceRequired = 5;
     const int experienceIncreasePerLevel = 1;
-    
+
     public static int ExperienceRequired()
     {
         return ((PlayerLevel - 1) * experienceIncreasePerLevel) + baseExperienceRequired;

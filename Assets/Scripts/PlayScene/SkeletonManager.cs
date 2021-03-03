@@ -18,6 +18,8 @@ public class SkeletonManager : MonoBehaviour
 
     public UnityEvent skeletonDestroyed;
 
+<<<<<<< HEAD
+=======
     public Image expImage;
     public Text lvlText;
     
@@ -30,6 +32,7 @@ public class SkeletonManager : MonoBehaviour
         //2.5f * 2160 / 1080;
     }
 
+>>>>>>> 63ea21247002b5f198ec952753370bb1385d48a6
     public void SpawnSkeleton()
     {
         var newSkeleton = Instantiate(skeletonPrefab);
