@@ -18,11 +18,9 @@ public class SkeletonManager : MonoBehaviour
 
     public UnityEvent skeletonDestroyed;
 
-<<<<<<< HEAD
-=======
+
     public Image expImage;
     public Text lvlText;
-    
     private void Start()
     {
         UpdateEXPBar();
@@ -32,7 +30,6 @@ public class SkeletonManager : MonoBehaviour
         //2.5f * 2160 / 1080;
     }
 
->>>>>>> 63ea21247002b5f198ec952753370bb1385d48a6
     public void SpawnSkeleton()
     {
         var newSkeleton = Instantiate(skeletonPrefab);
@@ -75,7 +72,7 @@ public class SkeletonManager : MonoBehaviour
                 }
             }
         }
-        
+
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             var camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
