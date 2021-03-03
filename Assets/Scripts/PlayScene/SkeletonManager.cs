@@ -3,13 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class SkeletonManager : MonoBehaviour
 {
     public float minHeight = -4;
     public float maxHeight = 2.5f;
-    public float distanceFromCenter = 15;
+    public float distanceFromCenter = 2.5f;
     public GameObject skeletonPrefab;
 
     public float timeBetweenSpawn = 1;
@@ -17,6 +18,21 @@ public class SkeletonManager : MonoBehaviour
 
     public UnityEvent skeletonDestroyed;
 
+<<<<<<< HEAD
+=======
+    public Image expImage;
+    public Text lvlText;
+    
+    private void Start()
+    {
+        UpdateEXPBar();
+        //Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / (float)2, 0, 0));
+        //distanceFromCenter = ray.origin.x;
+        distanceFromCenter *= (float)Screen.width / 1080;
+        //2.5f * 2160 / 1080;
+    }
+
+>>>>>>> 63ea21247002b5f198ec952753370bb1385d48a6
     public void SpawnSkeleton()
     {
         var newSkeleton = Instantiate(skeletonPrefab);
@@ -54,10 +70,12 @@ public class SkeletonManager : MonoBehaviour
                 {
                     skeletonDestroyed.Invoke();
                     AddExperience();
+                    UpdateEXPBar();
                     Destroy(hit.collider.gameObject);
                 }
             }
         }
+        
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             var camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -70,13 +88,14 @@ public class SkeletonManager : MonoBehaviour
                 {
                     skeletonDestroyed.Invoke();
                     AddExperience();
+                    UpdateEXPBar();
                     Destroy(hit.collider.gameObject);
                 }
             }
         }
     }
 
-    void AddExperience()
+    private void AddExperience()
     {
         PlayerData.PlayerExperience++;
     }
@@ -93,5 +112,11 @@ public class SkeletonManager : MonoBehaviour
     private Vector2 Vector2DirectionFromRay(Ray input)
     {
         return new Vector2(input.direction.x, input.direction.y);
+    }
+
+    private void UpdateEXPBar()
+    {
+        expImage.fillAmount = Mathf.InverseLerp(PlayerData.ExperienceRequired(), 0, PlayerData.ExperienceUntilLevelUp());
+        lvlText.text = PlayerData.PlayerLevel.ToString();
     }
 }
